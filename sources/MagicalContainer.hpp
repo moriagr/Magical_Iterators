@@ -3,8 +3,13 @@
 //
 
 #pragma once
-
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <stdexcept>
+#include <cassert>
 #include <vector>
+using namespace std;
 
 namespace ariel {
 

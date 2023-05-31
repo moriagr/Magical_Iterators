@@ -38,10 +38,13 @@ namespace ariel {
     }
 
     bool MagicalContainer::AscendingIterator::operator>(const AscendingIterator &other) const{
+        cout<<"hey"<<endl;
+
         return false;
     }
 
     bool MagicalContainer::AscendingIterator::operator<(const AscendingIterator &other) const{
+        cout<<"hey"<<endl;
         return false;
     }
 

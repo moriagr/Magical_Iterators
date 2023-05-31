@@ -1,204 +1,159 @@
 #include "doctest.h"
 
-#include <iostream>
-#include <fstream>
-#include <sstream>
-#include <stdexcept>
-#include <cassert>
-
 using namespace std;
 
 #include "sources/MagicalContainer.hpp" //no need for other includes
 
 using namespace ariel;
 
-//TEST_CASE("Create MagicalContainer and different iterators") {
-//    Point p1(2.5, 3.7);
-//    Point p2(4.2, 1.8);
-//
-//    CHECK(p1.distance(p2) == 2.6023);
-//
-//    Point p3 = p1.moveTowards(p1, p2, 1.5);
-//    CHECK(p3.distance(p2) == 1.5);
-//}
-//
-//TEST_CASE("Position - Edge case") {
-//    Point p1(0.0, 0.0);
-//    Point p2(0.0, 0.0);
-//
-//    CHECK(p1.distance(p2) == 0.0);
-//
-//    CHECK_THROWS(p1.moveTowards(p1, p2, 5.0)); //  The biggest distance is 0 so we cant move between them.
-//}
-//
-//TEST_CASE("Character - isAlive Ninja and Cowboy using hit") {
-//    Point a(32.3, 44), b(1.3, 3.5);
-//
-//    Cowboy tom("Tom", a);
-//
-//    YoungNinja john("John", Point(1.0, 2.0));
-//    TrainedNinja ninja("Ninja", Point(2.0, 5.0));
-//    OldNinja sam("Sam", b);
-//
-//    CHECK(tom.isAlive() == true);
-//    CHECK(john.isAlive() == true);
-//    CHECK(sam.isAlive() == true);
-//    CHECK(ninja.isAlive() == true);
-//
-//    CHECK_NOTHROW(tom.hit(110));
-//    john.hit(90);
-//    CHECK_THROWS(ninja.hit(130));// Have less than the given points.
-//    sam.hit(150);
-//    CHECK(john.isAlive() == true);
-//    CHECK(ninja.isAlive() == false);
-//}
-//
-//TEST_CASE("Cowboy - shoot") {
-//    Cowboy cowboy("John", Point(1.0, 2.0));
-//    OldNinja enemy("Enemy", Point(3.0, 2.0));
-//
-//    cowboy.shoot(&enemy);
-//    CHECK(enemy.isAlive() == false);
-//    CHECK(cowboy.hasboolets() == true);
-//}
-//
-//TEST_CASE("Ninja - move") {
-//    YoungNinja ninja("John", Point(1.0, 1.0));
-//    TrainedNinja enemy("Enemy", Point(5.0, 5.0));
-//
-//    ninja.move(&enemy);
-//    Point newLocation = ninja.getLocation();
-//    CHECK(newLocation.distance(enemy.getLocation()) == 5.0);
-//}
-//
-//TEST_CASE("Ninja - slash") {
-//    OldNinja ninja("John", Point(1.0, 1.0));
-//    YoungNinja enemy("Enemy", Point(1.5, 1.5));
-//
-//    ninja.slash(&enemy);
-//    CHECK(enemy.isAlive() == false);
-//}
-//
-//TEST_CASE("TrainedNinja") {
-//    TrainedNinja trainedNinja("John", Point(1.0, 1.0));
-//    CHECK(trainedNinja.getName() == "John");
-//    CHECK(trainedNinja.isAlive() == true);
-//    CHECK(trainedNinja.distance(YoungNinja("Enemy", Point(3.0, 4.0)).getLocation()) == 3.6056);
-//}
-//
-//TEST_CASE("OldNinja") {
-//
-//    OldNinja oldNinja("John", Point(1.0, 1.0));
-//    CHECK(oldNinja.getName() == "John");
-//    CHECK(oldNinja.isAlive() == true);
-//    TrainedNinja enemy("Enemy", Point(5.0, 5.0));
-//    CHECK(oldNinja.distance(enemy.getLocation()) == 6.3246);
-//}
-//
-//TEST_CASE("Cowboy") {
-//
-//    Cowboy cowboy("John", Point(1.0, 1.0));
-//    CHECK(cowboy.getName() == "John");
-//    CHECK(cowboy.isAlive() == true);
-//    CHECK(cowboy.distance(YoungNinja("Enemy", Point(5.0, 5.0)).getLocation()) == 6.3246);
-//}
-//
-//TEST_CASE("YoungNinja") {
-//    YoungNinja youngNinja("John", Point(1.0, 1.0));
-//    CHECK(youngNinja.getName() == "John");
-//    CHECK(youngNinja.isAlive() == true);
-//    CHECK(youngNinja.distance(Cowboy("Enemy", Point(2.0, 2.0)).getLocation()) == 1.4142);
-//}
-//
-//TEST_CASE("Group - add") {
-//    Team team;
-//    Cowboy cowboy("John", Point(1.0, 1.0));
-//    YoungNinja ninja("Ryu", Point(2.0, 2.0));
-//
-//    team.add(&cowboy);
-//    team.add(&ninja);
-//
-//    CHECK((team.getGroup()).size() == 2);
-//}
-//
-//TEST_CASE("Group - attack") {
-//    Team group1;
-//    Team group2;
-//    Cowboy cowboy1("John", Point(1.0, 1.0) );
-//    Cowboy cowboy2("Jane", Point(2.0, 2.0));
-//    OldNinja ninja1("Ryu", Point(3.0, 3.0));
-//    TrainedNinja ninja2("Ken", Point(4.0, 4.0));
-//    YoungNinja ninja3("Sam", Point(4.0, 4.0));
-//
-//    group1.add(&cowboy1);
-//    group1.add(&ninja1);
-//    group1.add(&ninja3);
-//
-//    group2.add(&cowboy2);
-//    group2.add(&ninja2);
-//
-//    group1.attack(&group2);
-//
-//    CHECK((group1.getGroup()).size() == 3);
-//    CHECK((group2.getGroup()).size() == 2);
-//}
-//
-//TEST_CASE("Group - isAlive") {
-//    Team group;
-//    Cowboy cowboy("John", Point(1.0, 1.0));
-//    OldNinja ninja("Ryu", Point(2.0, 2.0));
-//
-//    group.add(&cowboy);
-//    group.add(&ninja);
-//
-//    CHECK(group.stillAlive() == 2);
-//
-//    cowboy.hit(110);
-//    ninja.hit(150);
-//
-//    CHECK(group.stillAlive() == 0);
-//}
-//
-//TEST_CASE("Group - print") {
-//    Team group;
-//    Cowboy cowboy("John", Point(1.0, 1.0));
-//    YoungNinja ninja("Ryu", Point(2.0, 2.0));
-////    TrainedNinja trainedNinja("Sam", Point(3.0, 3.0));
-//
-//    group.add(&ninja);
-//    group.add(&cowboy);
-//
-//    stringstream buffer;
-//    streambuf* old = std::cout.rdbuf(buffer.rdbuf());
-//
-//    group.print();
-//
-//    string output = buffer.str();
-//    string expectedOutput = "C John: HP: 110, Location: (1, 1)\nN Ryu: HP: 100, Location: (2, 2)\n";
-//
-//    CHECK(output == expectedOutput);
-//
-//    cout.rdbuf(old);
-//}
-//
-//TEST_CASE("Group - print") {
-//    Team2 group;
-//    Cowboy cowboy("John", Point(1.0, 1.0));
-//    YoungNinja ninja("Ryu", Point(2.0, 2.0));
-////    TrainedNinja trainedNinja("Sam", Point(3.0, 3.0));
-//
-//    group.add(&ninja);
-//    group.add(&cowboy);
-//
-//    stringstream buffer;
-//    streambuf* old = std::cout.rdbuf(buffer.rdbuf());
-//
-//    group.print();
-//
-//    string output = buffer.str();
-//    string expectedOutput = "N Ryu: HP: 100, Location: (2, 2)\nC John: HP: 110, Location: (1, 1)\n";
-//
-//    CHECK(output == expectedOutput);
-//
-//    cout.rdbuf(old);
-//}
+TEST_CASE("Create MagicalContainer and check container size") {
+    MagicalContainer container;
+    SUBCASE("Test addElement() and size()") {
+
+        container.addElement(17);
+        container.addElement(2);
+        container.addElement(25);
+        container.addElement(9);
+        container.addElement(3);
+        CHECK(container.size() == 5);
+    }
+    SUBCASE("Test removeElement()") {
+
+        CHECK_NOTHROW(container.removeElement(2));
+
+        CHECK_THROWS(container.removeElement(2));
+        CHECK(container.size() == 4);
+
+        CHECK_NOTHROW(container.removeElement(3));
+        CHECK(container.size() == 3);
+    }
+}
+
+TEST_CASE("Test AscendingIterator class - begin") {
+    MagicalContainer container;
+    MagicalContainer container1;
+    container.addElement(5);
+    container.addElement(2);
+    container.addElement(8);
+    container1.addElement(9);
+    container1.addElement(3);
+    MagicalContainer::AscendingIterator ascIter(container);
+
+    auto first_asc_iterator = ascIter.begin();
+    auto second_asc_iterator = ascIter.begin();
+
+
+    SUBCASE("Test dereference operator") {
+        CHECK(*first_asc_iterator == 2);
+        CHECK(*second_asc_iterator == 2);
+    }
+
+    SUBCASE("Test pre-increment operator and comparison operators") {
+        ++first_asc_iterator;
+        CHECK(*first_asc_iterator == 5);
+
+        CHECK(first_asc_iterator > second_asc_iterator);
+        CHECK(first_asc_iterator != second_asc_iterator);
+        CHECK_FALSE(first_asc_iterator == second_asc_iterator);
+
+        ++second_asc_iterator;
+        CHECK(first_asc_iterator == second_asc_iterator);
+
+        ++second_asc_iterator;
+        CHECK(*second_asc_iterator == 8);
+
+        CHECK(first_asc_iterator < second_asc_iterator);
+
+        ++first_asc_iterator;
+        CHECK(*first_asc_iterator == 8);
+        CHECK(first_asc_iterator == second_asc_iterator);
+
+    }
+}
+
+TEST_CASE("Test SideCrossIterator class - begin") {
+    MagicalContainer container;
+    container.addElement(5);
+    container.addElement(2);
+    container.addElement(11);
+    container.addElement(20);
+    container.addElement(8);
+    // We should run it like this: 5 8 2 20 11
+    MagicalContainer::SideCrossIterator crossIter(container);
+    auto first_cross_iterator = crossIter.begin();
+    auto second_cross_iterator = crossIter.begin();
+
+    SUBCASE("Test dereference operator") {
+        CHECK(*first_cross_iterator == 5);
+        CHECK(*second_cross_iterator == 5);
+    }
+
+    SUBCASE("Test pre-increment operator and comparison operators") {
+        ++first_cross_iterator;
+        CHECK(*first_cross_iterator == 8);
+
+        CHECK(first_cross_iterator > second_cross_iterator);
+        CHECK(first_cross_iterator != second_cross_iterator);
+        CHECK_FALSE(first_cross_iterator == second_cross_iterator);
+
+        ++second_cross_iterator;
+        CHECK(first_cross_iterator == second_cross_iterator);
+
+        ++second_cross_iterator;
+        CHECK(*second_cross_iterator == 2);
+
+        CHECK_FALSE(first_cross_iterator < second_cross_iterator);
+
+        ++first_cross_iterator;
+        CHECK(*first_cross_iterator == 2);
+        CHECK(first_cross_iterator == second_cross_iterator);
+
+        ++first_cross_iterator;
+        CHECK(*first_cross_iterator == 20);
+        CHECK(first_cross_iterator > second_cross_iterator);
+
+        ++first_cross_iterator;
+        CHECK(*first_cross_iterator == 11);
+        CHECK(first_cross_iterator > second_cross_iterator);
+
+    }
+}
+
+TEST_CASE("Test PrimeIterator class") {
+    MagicalContainer container;
+    container.addElement(5);
+    container.addElement(7);
+    container.addElement(8);
+    container.addElement(2);
+    container.addElement(9);
+    MagicalContainer::PrimeIterator ascIter(container);
+    auto first_asc_iterator = ascIter.begin();
+    auto second_asc_iterator = ascIter.begin();
+
+    SUBCASE("Test dereference operator") {
+        CHECK(*first_asc_iterator == 5);
+        CHECK(*second_asc_iterator == 5);
+    }
+
+    SUBCASE("Test pre-increment operator and comparison operators") {
+        ++first_asc_iterator;
+        CHECK(*first_asc_iterator == 7);
+
+        CHECK(first_asc_iterator > second_asc_iterator);
+        CHECK(first_asc_iterator != second_asc_iterator);
+        CHECK_FALSE(first_asc_iterator == second_asc_iterator);
+
+        ++second_asc_iterator;
+        CHECK(first_asc_iterator == second_asc_iterator);
+
+        ++second_asc_iterator;
+        CHECK(*second_asc_iterator == 2);
+
+        CHECK(first_asc_iterator > second_asc_iterator);
+
+    }
+    SUBCASE("Test end equals to iterators"){
+        auto first_asc_iterator_end = ascIter.end();
+        CHECK(first_asc_iterator_end == ++second_asc_iterator);
+    }
+}
