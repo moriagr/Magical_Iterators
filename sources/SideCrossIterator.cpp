@@ -3,20 +3,17 @@
 
 namespace ariel {
 
-//    // Default constructor
-//    MagicalContainer::SideCrossIterator::SideCrossIterator(): container(MagicalContainer()), currentIndex(0){
-//
-//    }
-
     MagicalContainer::SideCrossIterator::SideCrossIterator(const MagicalContainer &cont, int index  ) : container(
-            cont), currentIndex(index) {
-
-    }
+            cont), currentIndex(index) {}
 
     // Copy constructor
     MagicalContainer::SideCrossIterator::SideCrossIterator(const MagicalContainer::SideCrossIterator &other) : container(other.container),
                                                                                                                currentIndex(
                                                                                                                        other.currentIndex) {}
+
+    // Move constructor
+    MagicalContainer::SideCrossIterator::SideCrossIterator(SideCrossIterator &&other) noexcept : container(other.container), currentIndex(other.currentIndex) {
+    }
 
     // Destructor
     MagicalContainer::SideCrossIterator::~SideCrossIterator(){
@@ -24,6 +21,11 @@ namespace ariel {
     }
 
     MagicalContainer::SideCrossIterator &MagicalContainer::SideCrossIterator::operator=(const SideCrossIterator &other){
+        return *this;
+    }
+
+    // Move assignment operator
+    MagicalContainer::SideCrossIterator &MagicalContainer::SideCrossIterator::operator=(SideCrossIterator &&other) noexcept {
         return *this;
     }
 

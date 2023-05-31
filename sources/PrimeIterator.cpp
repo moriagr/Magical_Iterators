@@ -3,20 +3,17 @@
 
 namespace ariel {
 
-    // Default constructor
-    MagicalContainer::PrimeIterator::PrimeIterator(): container(), currentIndex(0){
-
-    }
-
     MagicalContainer::PrimeIterator::PrimeIterator(const MagicalContainer &cont, int index  ) : container(
-            cont), currentIndex(index) {
-
-    }
+            cont), currentIndex(index) {}
 
     // Copy constructor
     MagicalContainer::PrimeIterator::PrimeIterator(const MagicalContainer::PrimeIterator &other) : container(other.container),
                                                                                                                currentIndex(
                                                                                                                        other.currentIndex) {}
+
+    // Move constructor
+    MagicalContainer::PrimeIterator::PrimeIterator(PrimeIterator &&other) noexcept : container(other.container), currentIndex(other.currentIndex) {
+    }
 
     // Destructor
     MagicalContainer::PrimeIterator::~PrimeIterator(){
@@ -24,6 +21,11 @@ namespace ariel {
     }
 
     MagicalContainer::PrimeIterator &MagicalContainer::PrimeIterator::operator=(const PrimeIterator &other){
+        return *this;
+    }
+
+    // Move assignment operator
+    MagicalContainer::PrimeIterator &MagicalContainer::PrimeIterator::operator=(PrimeIterator &&other) noexcept {
         return *this;
     }
 
